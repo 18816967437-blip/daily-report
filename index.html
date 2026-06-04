@@ -20,16 +20,12 @@ a:hover{background:#3b82f6;color:#fff}
 </head>
 <body>
 <h1>电驱车间生产日报</h1>
-<p class="sub">历史日报索引</p>
+<p class="sub">共 1 份日报</p>
 <table>
 <thead><tr><th>日期</th><th style="text-align:right">操作</th></tr></thead>
-<tbody id="list"></tbody>
+<tbody>
+<tr><td>2026-05-08</td><td style="text-align:right"><a href="2026-05-08.html">打开日报</a></td></tr>
+</tbody>
 </table>
-<script>
-const files=['2026-05-08'];
-document.getElementById('list').innerHTML=
-  files.map(f=>`<tr><td>${f}</td><td style="text-align:right"><a href="${f}.html">打开日报</a></td></tr>`).join('');
-document.querySelector('.sub').textContent='共 '+files.length+' 份日报';
-</script>
 </body>
 </html>
