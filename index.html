@@ -1,31 +1,76 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>电驱车间生产日报</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:#0f1117;color:#e4e4e7;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:60px 20px}
-h1{font-size:28px;font-weight:700;background:linear-gradient(135deg,#3b82f6,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
-.sub{color:#8b8fa3;font-size:14px;margin-bottom:32px}
-table{width:100%;max-width:600px;border-collapse:collapse;background:#1a1d27;border:1px solid #2a2d3a;border-radius:12px;overflow:hidden}
-th{background:#1e2130;color:#8b8fa3;font-size:12px;font-weight:500;padding:12px 16px;text-align:left}
-td{padding:14px 16px;border-bottom:1px solid #2a2d3a}
-tr:last-child td{border-bottom:none}
-tr:hover{background:rgba(59,130,246,.06)}
-a{color:#3b82f6;text-decoration:none;font-weight:600;padding:6px 16px;border:1px solid #3b82f6;border-radius:6px;font-size:13px;transition:all .2s}
-a:hover{background:#3b82f6;color:#fff}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>电驱车间生产日报</title>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        html, body { height:100%; overflow:hidden; }
+        body { display:flex; font-family:'Microsoft YaHei',sans-serif; background:#1a1a2e; color:#eee; }
+
+        /* 侧边栏 */
+        .sidebar {
+            width:220px; min-width:220px; background:#16213e;
+            display:flex; flex-direction:column; border-right:1px solid #0f3460;
+            height:100vh;
+        }
+        .sidebar-header {
+            padding:16px; text-align:center;
+            border-bottom:1px solid #0f3460; flex-shrink:0;
+        }
+        .sidebar-header h2 { font-size:15px; color:#e94560; }
+        .sidebar-header .count { font-size:12px; color:#aaa; margin-top:4px; }
+        .sidebar-list {
+            flex:1; overflow-y:auto; padding:8px;
+        }
+        .sidebar-list::-webkit-scrollbar { width:4px; }
+        .sidebar-list::-webkit-scrollbar-thumb { background:#0f3460; border-radius:2px; }
+        .sidebar-list a {
+            display:block; padding:10px 12px; margin-bottom:4px;
+            color:#ccc; text-decoration:none; font-size:13px;
+            border-radius:6px; transition:all .2s;
+        }
+        .sidebar-list a:hover { background:#0f3460; color:#fff; }
+        .sidebar-list a.active { background:#e94560; color:#fff; font-weight:bold; }
+
+        /* 主内容区 */
+        .main { flex:1; height:100vh; }
+        .main iframe {
+            width:100%; height:100%; border:none;
+        }
+
+        /* 移动端适配 */
+        @media (max-width:768px) {
+            body { flex-direction:column; }
+            .sidebar {
+                width:100%; min-width:unset; height:auto;
+                max-height:40vh; border-right:none; border-bottom:1px solid #0f3460;
+            }
+            .main { height:60vh; }
+        }
+    </style>
 </head>
 <body>
-<h1>电驱车间生产日报</h1>
-<p class="sub">共 1 份日报</p>
-<table>
-<thead><tr><th>日期</th><th style="text-align:right">操作</th></tr></thead>
-<tbody>
-<tr><td>2026-05-08</td><td style="text-align:right"><a href="2026-05-08.html">打开日报</a></td></tr>
-</tbody>
-</table>
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>电驱车间生产日报</h2>
+            <div class="count">共 1 天</div>
+        </div>
+        <div class="sidebar-list">
+            <a href="2026-05-08.html" target="report" data-date="2026-05-08" class="active">2026-05-08</a>
+        </div>
+    </div>
+    <div class="main">
+        <iframe name="report" src="2026-05-08.html"></iframe>
+    </div>
+    <script>
+        document.querySelectorAll('.sidebar-list a').forEach(a => {
+            a.addEventListener('click', function(e) {
+                document.querySelectorAll('.sidebar-list a').forEach(x => x.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
 </body>
 </html>
