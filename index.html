@@ -11,8 +11,6 @@
         * { margin:0; padding:0; box-sizing:border-box; }
         html, body { height:100%; overflow:hidden; }
         body { display:flex; font-family:'Microsoft YaHei',sans-serif; background:#1a1a2e; color:#eee; }
-
-        /* 侧边栏 */
         .sidebar {
             width:220px; min-width:220px; background:#16213e;
             display:flex; flex-direction:column; border-right:1px solid #0f3460;
@@ -36,14 +34,8 @@
         }
         .sidebar-list a:hover { background:#0f3460; color:#fff; }
         .sidebar-list a.active { background:#e94560; color:#fff; font-weight:bold; }
-
-        /* 主内容区 */
         .main { flex:1; height:100vh; }
-        .main iframe {
-            width:100%; height:100%; border:none;
-        }
-
-        /* 移动端适配 */
+        .main iframe { width:100%; height:100%; border:none; }
         @media (max-width:768px) {
             body { flex-direction:column; }
             .sidebar {
@@ -58,19 +50,20 @@
     <div class="sidebar">
         <div class="sidebar-header">
             <h2>电驱车间生产日报</h2>
-            <div class="count">共 6 天</div>
+            <div class="count">共 7 天</div>
         </div>
         <div class="sidebar-list">
-            <a href="2026-06-07.html?_=1780882282013" target="report" data-date="2026-06-07" class="active">2026-06-07</a>
-            <a href="2026-06-06.html?_=1780882282013" target="report" data-date="2026-06-06" >2026-06-06</a>
-            <a href="2026-06-05.html?_=1780882282013" target="report" data-date="2026-06-05" >2026-06-05</a>
-            <a href="2026-06-04.html?_=1780882282013" target="report" data-date="2026-06-04" >2026-06-04</a>
-            <a href="2026-06-03.html?_=1780882282013" target="report" data-date="2026-06-03" >2026-06-03</a>
-            <a href="2026-05-08.html?_=1780882282013" target="report" data-date="2026-05-08" >2026-05-08</a>
+            <a href="2026-06-08.html?_=1780969758961" target="report" data-date="2026-06-08" class="active">2026-06-08</a>
+            <a href="2026-06-07.html?_=1780969758961" target="report" data-date="2026-06-07">2026-06-07</a>
+            <a href="2026-06-06.html?_=1780969758961" target="report" data-date="2026-06-06">2026-06-06</a>
+            <a href="2026-06-05.html?_=1780969758961" target="report" data-date="2026-06-05">2026-06-05</a>
+            <a href="2026-06-04.html?_=1780969758961" target="report" data-date="2026-06-04">2026-06-04</a>
+            <a href="2026-06-03.html?_=1780969758961" target="report" data-date="2026-06-03">2026-06-03</a>
+            <a href="2026-05-08.html?_=1780969758961" target="report" data-date="2026-05-08">2026-05-08</a>
         </div>
     </div>
     <div class="main">
-        <iframe name="report" src="2026-06-07.html?_=1780882282013"></iframe>
+        <iframe name="report" src="2026-06-08.html?_=1780969758961"></iframe>
     </div>
     <script>
         document.querySelectorAll('.sidebar-list a').forEach(a => {
