@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDS 3.0 电驱车间生产日报 — 2026-06-11</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+:root{--bg:#0f1117;--card:#1a1d27;--bdr:#2a2d3a;--txt:#e4e4e7;--dim:#8b8fa3;--blue:#3b82f6;--purple:#8b5cf6;--green:#22c55e;--red:#ef4444;--orange:#f59e0b;--cyan:#06b6d4;--pink:#ec4899;--slate:#64748b;--r:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;padding:12px;font-size:13px;max-width:1600px;margin:0 auto}
+h1{font-size:clamp(18px,4vw,24px);font-weight:700;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
+.sub{text-align:center;color:var(--dim);font-size:12px;margin:3px 0 5px}
+.badge{display:inline-block;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;padding:4px 14px;border-radius:18px;font-size:12px;font-weight:600}
+.hdr{text-align:center;margin-bottom:16px}
+.src{font-size:10px;color:var(--dim);text-align:center;margin-top:4px}
+
+/* KPI */
+.kpi{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.kc{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 8px;text-align:center;position:relative;overflow:hidden}
+.kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kc.c1::before{background:var(--green)}.kc.c2::before{background:var(--blue)}.kc.c3::before{background:var(--purple)}.kc.c4::before{background:var(--orange)}.kc.c5::before{background:var(--cyan)}.kc.c6::before{background:var(--pink)}.kc.c7::before{background:var(--red)}.kc.c8::before{background:var(--slate)}
+.kl{font-size:10px;color:var(--dim);margin-bottom:5px}.kv{font-size:22px;font-weight:700}
+.kc.c1 .kv{color:var(--green)}.kc.c2 .kv{color:var(--blue)}.kc.c3 .kv{color:var(--purple)}.kc.c4 .kv{color:var(--orange)}.kc.c5 .kv{color:var(--cyan)}.kc.c6 .kv{color:var(--pink)}.kc.c7 .kv{color:var(--red)}.kc.c8 .kv{color:#94a3b8}
+.ku{font-size:10px;color:var(--dim)}.kd{font-size:9px;margin-top:3px}.kd.up{color:var(--green)}.kd.down{color:var(--red)}
+.tg{font-size:9px;padding:2px 5px;border-radius:3px;display:inline-block;margin-top:3px}
+.tg.ok{background:rgba(34,197,94,.15);color:var(--green)}.tg.no{background:rgba(239,68,68,.15);color:var(--red)}
+
+/* Grid */
+.g{display:grid;gap:12px;margin-bottom:12px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g23{grid-template-columns:2fr 1fr}.g1{grid-template-columns:1fr}
+.cc{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:14px}
+.ct{font-size:13px;font-weight:600;margin-bottom:2px}.cs{font-size:10px;color:var(--dim);margin-bottom:10px}
+
+/* 图表响应式容器 */
+.chart-container{position:relative;width:100%;height:280px;min-height:180px}
+
+/* Tables */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th,td{padding:6px 7px;text-align:center;border-bottom:1px solid var(--bdr)}
+th{color:var(--dim);font-weight:500;font-size:10px;white-space:nowrap}
+tr:hover{background:rgba(59,130,246,.04)}
+.ln{text-align:left!important;font-weight:600}
+.st{padding:1px 5px;border-radius:3px;font-size:9px;font-weight:600}
+.sh{background:rgba(239,68,68,.15);color:var(--red)}.sm{background:rgba(245,158,11,.15);color:var(--orange)}.sl{background:rgba(59,130,246,.15);color:var(--blue)}
+
+/* Timeline */
+.ti{display:flex;align-items:center;padding:6px 0;border-bottom:1px solid var(--bdr);font-size:11px}.ti:last-child{border-bottom:none}
+.td{width:8px;height:8px;border-radius:50%;margin-right:7px;flex-shrink:0}
+.tt{color:var(--dim);width:50px;flex-shrink:0;font-size:10px}
+.tr2{flex:1;font-size:11px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tdr{font-weight:600;width:48px;text-align:right;flex-shrink:0;font-size:11px}
+
+/* Flow diagram */
+.flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:12px 0;font-size:11px}
+.flow-item{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:8px 12px;min-width:80px;text-align:center}
+.flow-item.main{border-color:var(--blue);background:rgba(59,130,246,.1)}
+.flow-item.sub{border-color:var(--purple);background:rgba(139,92,246,.1)}
+.flow-item.start{border-color:var(--green);background:rgba(34,197,94,.15)}
+.flow-item.end{border-color:var(--orange);background:rgba(245,158,11,.15)}
+.flow-arrow{color:var(--dim);font-size:16px}
+.flow-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+.flow-scroll::-webkit-scrollbar{height:4px}
+.flow-scroll::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px}
+
+/* 节拍线体卡片网格 */
+.takt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+
+/* 摘要行 */
+.summary-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--bdr);font-size:12px;line-height:1.8}
+
+/* footer */
+.ft{text-align:center;color:var(--dim);font-size:10px;margin-top:16px;padding:12px;border-top:1px solid var(--bdr)}
+.ft span{margin:0 8px}
+
+/* ========== 响应式断点 ========== */
+
+/* <=1400px: 宽平板/小桌面 */
+@media(max-width:1400px){
+  .kpi{grid-template-columns:repeat(4,1fr)}
+  .g2,.g23{grid-template-columns:1fr}
+  .chart-container{height:250px}
+}
+
+/* <=1024px: 平板横屏 */
+@media(max-width:1024px){
+  .kpi{grid-template-columns:repeat(4,1fr)}
+  .chart-container{height:230px}
+  .flow-main-row{flex-wrap:wrap;justify-content:center}
+  .flow-main-row .flow-arrow{display:none}
+  .flow-main-row .flow-item{min-width:90px}
+  .three-col-row{grid-template-columns:1fr!important}
+}
+
+/* <=768px: 平板竖屏 / 大手机 */
+@media(max-width:768px){
+  body{padding:8px;font-size:12px}
+  .kpi{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:1fr}
+  .chart-container{height:200px;min-height:160px}
+  .kv{font-size:18px}
+  .flow-sub-row{flex-wrap:wrap}
+  .flow-sub-row .flow-item{min-width:80px}
+  .summary-row{font-size:11px}
+  .ft span{display:block;margin:2px 0}
+}
+
+/* <=480px: 手机 */
+@media(max-width:480px){
+  body{padding:6px;font-size:11px}
+  .kpi{grid-template-columns:1fr 1fr;gap:6px}
+  .kc{padding:10px 6px}
+  .kv{font-size:16px}
+  .ku{font-size:9px}
+  .kl{font-size:9px}
+  .cc{padding:10px}
+  .ct{font-size:12px}
+  .cs{font-size:9px}
+  .chart-container{height:180px;min-height:140px}
+  .takt-grid{grid-template-columns:1fr 1fr}
+  .badge{font-size:11px;padding:3px 10px}
+  .flow-item{padding:6px 8px;min-width:70px;font-size:10px}
+  .flow-arrow{font-size:13px}
+}
+
+/* <=360px: 超小屏 */
+@media(max-width:360px){
+  .kpi{grid-template-columns:1fr}
+  .takt-grid{grid-template-columns:1fr}
+}
+
+/* hover 效果仅在有指针设备时生效 */
+@media(hover:hover){
+  .cc:hover{border-color:rgba(59,130,246,.3);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+  .kc:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+}
+.cc,.kc{transition:all 0.3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.kc,.cc{animation:fi .35s ease-out both}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>EDS 3.0 电驱车间生产日报</h1>
+  <div class="sub">Electric Drive System Workshop — Daily Production Report</div>
+  <div class="badge">2026-06-11 星期四 · 白班 08:00–20:00</div>
+  <div class="src">数据来源：安灯系统 (96条) + SN过站系统 (23,314条) · 数据时间 07:56–20:57</div>
+</div>
+
+<!-- 工艺流程示意 -->
+<div class="cc" style="margin-bottom:14px">
+  <div class="ct">🔄 工艺流程示意</div>
+  <div class="cs">上线工位 EDS1010 → 主线加工流程 → 下线工位 EDS7290（全流程完成）</div>
+  <div style="margin:16px 0">
+    <!-- 支线区域 -->
+    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:12px;text-align:center;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="flow-item sub" style="min-width:90px"><div style="font-weight:600">转子端盖线</div><div style="font-size:10px">97台</div></div>
+        <div style="color:var(--purple);font-size:11px;margin-top:4px">↓ 转线</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="flow-item sub" style="min-width:90px"><div style="font-weight:600">轴系线</div><div style="font-size:10px">118台</div></div>
+        <div style="color:var(--purple);font-size:11px;margin-top:4px">↓ 转线</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="flow-item sub" style="min-width:90px"><div style="font-weight:600">减速箱线</div><div style="font-size:10px">89台</div></div>
+        <div style="color:var(--purple);font-size:11px;margin-top:4px">↓ 转线</div>
+      </div>
+    </div>
+    <!-- 主线区域：窄屏可横滚 -->
+    <div class="flow-scroll">
+      <div class="flow-main-row" style="display:flex;align-items:center;justify-content:center;gap:4px;min-width:fit-content">
+        <div class="flow-item start" style="min-width:80px"><div style="font-weight:700;color:var(--green)">上线</div><div>EDS1010</div><div style="font-size:10px">75台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item main" style="min-width:80px"><div style="font-weight:600">热套线</div><div style="font-size:10px">119台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item main" style="min-width:80px;border-color:var(--purple);background:rgba(139,92,246,.1)"><div style="font-weight:600">电机线</div><div style="font-size:10px">99台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item main" style="min-width:80px;border-color:var(--purple);background:rgba(139,92,246,.1)"><div style="font-weight:600">总成线</div><div style="font-size:10px">116台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item main" style="min-width:80px"><div style="font-weight:600">测试线</div><div style="font-size:10px">（EOL）</div><div style="font-size:10px">103台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item end" style="min-width:80px"><div style="font-weight:700;color:var(--orange)">下线</div><div>EDS7290</div><div style="font-size:10px">74台</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:10px;color:var(--dim);text-align:center;margin-top:12px;padding-top:10px;border-top:1px dashed var(--bdr)">
+    支线说明：转子端盖线 → 转线 → 电机线 &nbsp;|&nbsp; 轴系线 → 转线 → 总成线 &nbsp;|&nbsp; 减速箱线 → 转线 → 总成线
+  </div>
+</div>
+
+<!-- KPI -->
+<div class="cc" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(139,92,246,.1));border-color:var(--blue)">
+  <div class="ct" style="font-size:15px;display:flex;align-items:center;gap:8px">
+    <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg,var(--blue),var(--purple));border-radius:2px"></span>
+    📊 核心生产数据面板
+  </div>
+  <div class="cs">关键生产指标总览</div>
+  <div class="kpi" style="margin-top:12px">
+  <div class="kc c1"><div class="kl">上线投料</div><div class="kv">75</div><div class="ku">台 (EDS1010)</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">计划 72 台</div><div style="font-size:9px;color:var(--dim)">达成率</div></div><div style="font-size:16px;font-weight:700;color:var(--green);text-align:right">104.2%</div></div></div>
+  <div class="kc c2"><div class="kl">全流程产出</div><div class="kv">74</div><div class="ku">台 (EDS7290)</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">计划 72 台</div><div style="font-size:9px;color:var(--dim)">达成率</div></div><div style="font-size:16px;font-weight:700;color:var(--green);text-align:right">102.8%</div></div></div>
+  <div class="kc c3"><div class="kl">一次通过率 FTT</div><div class="kv">97.3%</div><div class="ku">不合格 15 / 600</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">目标 ≥97%</div><div style="font-size:12px;font-weight:700;color:var(--green)">✓ 达标 +0.3%</div></div></div></div>
+  <div class="kc c4"><div class="kl">产线节拍</div><div class="kv">9.2</div><div class="ku">JPH · CT 6.6min</div><div style="margin-top:4px;font-size:9px;color:var(--dim)">OEE 77.9%</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">目标 8 JPH</div><div style="font-size:16px;font-weight:700;color:var(--green);text-align:right">114.4%</div></div></div></div>
+  <div class="kc c5"><div class="kl">线下返修数</div><div class="kv">15</div><div class="ku">台</div></div>
+  <div class="kc c6"><div class="kl">线下返修率</div><div class="kv">2.5%</div><div class="ku">15 / 600</div><div class="tg ok">达标</div></div>
+  <div class="kc c7"><div class="kl">设备开动率</div><div class="kv">80.0%</div><div class="ku">停机 96min / 480min</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">目标 ≥93%</div><div style="font-size:12px;font-weight:700;color:var(--red)">✗ 未达标 -13.0%</div></div></div></div>
+  <div class="kc c8"><div class="kl">产品型号</div><div class="kv" style="font-size:14px">P000024333001</div><div class="ku">共2种型号</div></div>
+</div>
+</div>
+
+<!-- 生产总结与建议 -->
+<div class="g g2" style="margin-bottom:14px">
+  <div class="cc" style="background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(59,130,246,.08))">
+    <div class="ct">📋 今日生产总结</div>
+    <div style="margin-top:10px">
+      <div class="summary-row">
+        <span style="color:var(--dim)">上线投料</span>
+        <span style="font-weight:600">75台 <span style="color:var(--green)">✓ 104.2%</span></span>
+      </div>
+      <div class="summary-row">
+        <span style="color:var(--dim)">全流程产出</span>
+        <span style="font-weight:600">74台 <span style="color:var(--green)">✓ 102.8%</span></span>
+      </div>
+      <div class="summary-row">
+        <span style="color:var(--dim)">一次通过率 FTT</span>
+        <span style="font-weight:600">97.3% <span style="color:var(--green)">✓ 达标</span></span>
+      </div>
+      <div class="summary-row">
+        <span style="color:var(--dim)">产线节拍</span>
+        <span style="font-weight:600">9.2 JPH <span style="color:var(--green)">✓ 达标 114%</span></span>
+      </div>
+      <div class="summary-row">
+        <span style="color:var(--dim)">设备开动率</span>
+        <span style="font-weight:600">80.0% <span style="color:var(--red)">✗ 未达标</span></span>
+      </div>
+      <div class="summary-row" style="border-bottom:none">
+        <span style="color:var(--dim)">线下返修</span>
+        <span style="font-weight:600">15台 / 2.5%</span>
+      </div>
+    </div>
+    <div style="margin-top:12px;padding:8px;background:rgba(245,158,11,.1);border-radius:6px;border-left:3px solid var(--orange)">
+      <div style="font-size:11px;color:var(--orange);font-weight:600">⚠️ 关注项</div>
+      <div style="font-size:11px;color:var(--dim);margin-top:4px">设备开动率80.0%未达93%目标，停机96分钟</div>
+    </div>
+  </div>
+  <div class="cc" style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(239,68,68,.08))">
+    <div class="ct">💡 生产改善建议</div>
+    <div style="margin-top:10px;font-size:12px;line-height:1.8">
+<div style="padding:8px;background:rgba(239,68,68,.08);border-radius:6px;margin-bottom:8px;border-left:3px solid var(--red)">
+  <div style="font-weight:600;color:var(--red);margin-bottom:4px">🔴 优先改善：设备一级报警问题</div>
+  <div style="color:var(--dim)">设备一级报警故障91次，总成线(24次)为重灾区</div>
+  <div style="color:var(--txt);margin-top:4px;font-weight:500">→ 检查传感器状态和参数设置，排查误报原因</div>
+</div>
+<div style="padding:8px;background:rgba(245,158,11,.08);border-radius:6px;margin-bottom:8px;border-left:3px solid var(--orange)">
+  <div style="font-weight:600;color:var(--orange);margin-bottom:4px">🟡 重点关注：工艺呼叫问题</div>
+  <div style="color:var(--dim)">工艺呼叫故障27次，总成线(11次)为重灾区</div>
+  <div style="color:var(--txt);margin-top:4px;font-weight:500">→ 分析工艺呼叫发生原因，制定针对性改善措施</div>
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- R1: 各线流经量 -->
+<div class="g g1">
+  <div class="cc" id="detail-flow">
+    <div class="ct">📊 各线体产品流经量（唯一SN数）</div>
+    <div class="cs">各支线独立统计，展示当日流经该线体的产品数量（非累加）</div>
+    <div class="chart-container"><canvas id="chOut"></canvas></div>
+  </div>
+</div>
+
+<!-- R2: 安灯分布 + 安灯工位Top10 + 停机时间线 -->
+<div class="g g3 three-col-row" style="margin-bottom:12px">
+  <div class="cc" id="detail-andon-line">
+    <div class="ct">⏱️ 各线体安灯触发次数</div>
+    <div class="cs">安灯历史记录按线体汇总</div>
+    <div class="chart-container"><canvas id="chAndonLine"></canvas></div>
+  </div>
+  <div class="cc" id="detail-andon-station">
+    <div class="ct">🔍 安灯工位 Top 10</div>
+    <div class="cs">按累计停机分钟排序</div>
+    <div class="chart-container"><canvas id="chAndonSt"></canvas></div>
+  </div>
+  <div class="cc">
+    <div class="ct">📋 最长停机事件 Top 10</div>
+    <div class="cs">按持续时长排序</div>
+    <div id="timeline"></div>
+  </div>
+</div>
+
+<!-- 安灯时段分布 -->
+<div class="g g1">
+  <div class="cc">
+    <div class="ct">🕐 安灯事件时段分布</div>
+    <div class="cs">按小时统计安灯触发次数，识别高发时段</div>
+    <div class="chart-container" style="height:220px"><canvas id="chHourly"></canvas></div>
+  </div>
+</div>
+
+<!-- R3: 质量 FAIL + NG帕累托 -->
+<div class="g g2">
+  <div class="cc" id="detail-fail">
+    <div class="ct">❌ 过站 NG 记录分布</div>
+    <div class="cs">SN 过站系统中上报结果为 FAIL 的记录，按线体和工位统计</div>
+    <div class="chart-container"><canvas id="chFail"></canvas></div>
+  </div>
+  <div class="cc" id="detail-ng">
+    <div class="ct">🔄 线下返修帕累托分析</div>
+    <div class="cs">按工位统计 NG 拉入/拉出记录，柱=数量，折线=累计占比</div>
+    <div class="chart-container"><canvas id="chNG"></canvas></div>
+  </div>
+</div>
+
+<!-- R4: 质量明细表 -->
+<div class="g g1">
+  <div class="cc">
+    <div class="ct">⚠️ NG 工位明细（19 条）</div>
+    <div class="cs">来自 SN 过站历史表，过站上报结果为 FAIL 的全部记录</div>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>线体</th><th>工位编码</th><th>工位名称</th><th>SN码（截取）</th><th>过站类型</th><th>等级</th></tr></thead>
+      <tbody id="failTable"></tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- R5: 产品型号 + 过站类型 -->
+<div class="g g2">
+  <div class="cc" id="detail-product">
+    <div class="ct">📦 产品型号分布</div>
+    <div class="cs">按产品料号统计过站记录数</div>
+    <div class="chart-container" style="height:240px"><canvas id="chProd"></canvas></div>
+  </div>
+  <div class="cc">
+    <div class="ct">📈 各线体 IN/OUT 过站量</div>
+    <div class="cs">按产线编码统计 IN 和 OUT 记录数</div>
+    <div class="chart-container" style="height:240px"><canvas id="chInOut"></canvas></div>
+  </div>
+</div>
+
+<!-- R6: 工位节拍分析 -->
+<div class="g g1">
+  <div class="cc" id="detail-takt">
+    <div class="ct">⏱️ 各线体工位节拍分析</div>
+    <div class="cs">基于SN过站历史表计算的实际工位节拍，点击查看各工位详情</div>
+
+    <!-- 线体汇总视图 -->
+    <div id="takt-summary-view" style="margin-top:12px">
+      <div class="takt-grid">
+<div class="flow-item main" style="cursor:pointer;min-width:140px;transition:all 0.3s" onclick="toggleLineDetail('RTX')" id="line-card-RTX">
+          <div style="font-weight:600;font-size:13px">热套线</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px">17个工位</div>
+          <div style="font-size:18px;font-weight:700;margin:6px 0;color:var(--red)">20.48min</div>
+          <div style="font-size:9px;color:var(--dim)">平均节拍</div>
+          <div style="font-size:9px;margin-top:4px;padding-top:4px;border-top:1px dashed var(--bdr)"><span style="color:var(--red)">瓶颈: EDS1080-3...</span></div>
+        </div>
+<div class="flow-item main" style="cursor:pointer;min-width:140px;transition:all 0.3s" onclick="toggleLineDetail('DJX')" id="line-card-DJX">
+          <div style="font-weight:600;font-size:13px">电机线</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px">21个工位</div>
+          <div style="font-size:18px;font-weight:700;margin:6px 0;color:var(--red)">43.86min</div>
+          <div style="font-size:9px;color:var(--dim)">平均节拍</div>
+          <div style="font-size:9px;margin-top:4px;padding-top:4px;border-top:1px dashed var(--bdr)"><span style="color:var(--red)">瓶颈: EDS2155-1...</span></div>
+        </div>
+<div class="flow-item main" style="cursor:pointer;min-width:140px;transition:all 0.3s" onclick="toggleLineDetail('ZCX')" id="line-card-ZCX">
+          <div style="font-weight:600;font-size:13px">总成线</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px">52个工位</div>
+          <div style="font-size:18px;font-weight:700;margin:6px 0;color:var(--red)">4.33min</div>
+          <div style="font-size:9px;color:var(--dim)">平均节拍</div>
+          <div style="font-size:9px;margin-top:4px;padding-top:4px;border-top:1px dashed var(--bdr)"><span style="color:var(--red)">瓶颈: EDS6610-2...</span></div>
+        </div>
+<div class="flow-item main" style="cursor:pointer;min-width:140px;transition:all 0.3s" onclick="toggleLineDetail('EOL')" id="line-card-EOL">
+          <div style="font-weight:600;font-size:13px">测试线(EOL)</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px">34个工位</div>
+          <div style="font-size:18px;font-weight:700;margin:6px 0;color:var(--red)">5.38min</div>
+          <div style="font-size:9px;color:var(--dim)">平均节拍</div>
+          <div style="font-size:9px;margin-top:4px;padding-top:4px;border-top:1px dashed var(--bdr)"><span style="color:var(--red)">瓶颈: EDS7290-2...</span></div>
+        </div>
+<div class="flow-item main" style="cursor:pointer;min-width:140px;transition:all 0.3s" onclick="toggleLineDetail('ZXX')" id="line-card-ZXX">
+          <div style="font-weight:600;font-size:13px">轴系线</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px">14个工位</div>
+          <div style="font-size:18px;font-weight:700;margin:6px 0;color:var(--red)">3.98min</div>
+          <div style="font-size:9px;color:var(--dim)">平均节拍</div>
+          <div style="font-size:9px;margin-top:4px;padding-top:4px;border-top:1px dashed var(--bdr)"><span style="color:var(--red)">瓶颈: EDS4150-1...</span></div>
+        </div>
+<div class="flow-item main" style="cursor:pointer;min-width:140px;transition:all 0.3s" onclick="toggleLineDetail('JSX')" id="line-card-JSX">
+          <div style="font-weight:600;font-size:13px">减速箱线</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px">13个工位</div>
+          <div style="font-size:18px;font-weight:700;margin:6px 0;color:var(--red)">6.67min</div>
+          <div style="font-size:9px;color:var(--dim)">平均节拍</div>
+          <div style="font-size:9px;margin-top:4px;padding-top:4px;border-top:1px dashed var(--bdr)"><span style="color:var(--red)">瓶颈: EDS5075...</span></div>
+        </div>
+<div class="flow-item main" style="cursor:pointer;min-width:140px;transition:all 0.3s" onclick="toggleLineDetail('ZZDGX')" id="line-card-ZZDGX">
+          <div style="font-weight:600;font-size:13px">转子端盖线</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px">13个工位</div>
+          <div style="font-size:18px;font-weight:700;margin:6px 0;color:var(--red)">2.56min</div>
+          <div style="font-size:9px;color:var(--dim)">平均节拍</div>
+          <div style="font-size:9px;margin-top:4px;padding-top:4px;border-top:1px dashed var(--bdr)"><span style="color:var(--red)">瓶颈: EDS2105-2...</span></div>
+        </div>
+<div class="flow-item main" style="cursor:pointer;min-width:140px;transition:all 0.3s" onclick="toggleLineDetail('NBQZX')" id="line-card-NBQZX">
+          <div style="font-weight:600;font-size:13px">逆变器装配线</div>
+          <div style="font-size:11px;color:var(--dim);margin-top:4px">1个工位</div>
+          <div style="font-size:18px;font-weight:700;margin:6px 0;color:var(--green)">0.47min</div>
+          <div style="font-size:9px;color:var(--dim)">平均节拍</div>
+          <div style="font-size:9px;margin-top:4px;padding-top:4px;border-top:1px dashed var(--bdr)"><span style="color:var(--green)">瓶颈: EDS6310-1...</span></div>
+        </div>
+</div>
+</div>
+<!-- 各线体工位详情（动态生成） -->
+    <div id="takt-detail-container"></div>
+  </div>
+</div>
+
+
+<div class="ft">
+  <span>制表：小米制造工程部</span><span>|</span><span>审核：_______________</span><span>|</span><span>批准：_______________</span>
+  <br><br><span>EDS 3.0 电驱车间生产日报 · 2026-05-08 · 数据自动采集自安灯系统 & SN过站系统</span>
+</div>
+
+<script>
+Chart.defaults.color='#8b8fa3';Chart.defaults.borderColor='rgba(255,255,255,.06)';
+Chart.defaults.font.family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif";
+Chart.defaults.responsive=true;Chart.defaults.maintainAspectRatio=false;
+
+/* 小屏幕自动隐藏 datalabels */
+const isSmallScreen = () => window.innerWidth <= 768;
+const smallScreenPlugin = {id:'smallScreenDatalabels',beforeInit(chart){
+  if(isSmallScreen()){
+    const dl = chart.options.plugins && chart.options.plugins.datalabels;
+    if(dl) dl.display=false;
+  }
+}};
+Chart.register(smallScreenPlugin);
+
+/* Chart.js 全局字号跟随屏幕 */
+function updateChartFontSizes(){
+  const w = window.innerWidth;
+  if(w <= 480){
+    Chart.defaults.font.size = 9;
+  } else if(w <= 768){
+    Chart.defaults.font.size = 10;
+  } else {
+    Chart.defaults.font.size = 12;
+  }
+}
+updateChartFontSizes();
+window.addEventListener('resize', updateChartFontSizes);
+const C={blue:'#3b82f6',purple:'#8b5cf6',green:'#22c55e',red:'#ef4444',orange:'#f59e0b',cyan:'#06b6d4',pink:'#ec4899',slate:'#64748b',
+  bA:'rgba(59,130,246,.3)',pA:'rgba(139,92,246,.3)',gA:'rgba(34,197,94,.3)',rA:'rgba(239,68,68,.3)',oA:'rgba(245,158,11,.3)',cA:'rgba(6,182,212,.3)',pkA:'rgba(236,72,153,.3)'};
+
+/* ===== 真实数据 ===== */
+const outData = {labels:["热套线", "电机线", "总成线", "测试线(EOL)", "轴系线", "减速箱线", "转子端盖线", "精装返修", "逆变器装配线"],values:[119, 99, 116, 103, 118, 89, 97, 15, 72]};
+const andonLine = {labels:["总成线", "电机线", "减速箱线", "热套线", "测试线(EOL)", "轴系线", "转子端盖线", "逆变器装配线"],counts:[35, 24, 20, 17, 10, 6, 5, 1],mins:[34.0, 17.1, 6.4, 26.5, 3.0, 2.2, 14.7, 0.5]};
+const andonStations = {labels:["EDS1080-8", "EDS3120", "EDS6030", "EDS2090-2", "EDS1080-7", "EDS6375-1", "EDS5140-2", "EDS6180", "EDS2190-2", "EDS6280-2"],counts:[6, 2, 18, 6, 5, 2, 12, 3, 6, 2],mins:[16.7, 14.3, 10.9, 10.8, 9.3, 9.3, 6.0, 5.7, 3.4, 3.3]};
+const topEvents = [{"line": "转子端盖线", "station": "EDS3120", "time": "15:55", "sec": 790.6}, {"line": "总成线", "station": "EDS6030", "time": "15:12", "sec": 453.5}, {"line": "电机线", "station": "EDS2090-2", "time": "12:34", "sec": 419.7}, {"line": "热套线", "station": "EDS1080-8", "time": "09:06", "sec": 406.0}, {"line": "热套线", "station": "EDS1080-7", "time": "08:08", "sec": 404.1}, {"line": "热套线", "station": "EDS1080-8", "time": "09:12", "sec": 332.5}, {"line": "总成线", "station": "EDS6375-1", "time": "09:12", "sec": 310.2}, {"line": "总成线", "station": "EDS6375-1", "time": "09:46", "sec": 245.9}, {"line": "总成线", "station": "EDS6180", "time": "09:47", "sec": 222.2}, {"line": "电机线", "station": "EDS2190-2", "time": "08:51", "sec": 154.3}];
+const failData = [{"line": "测试线(EOL)", "code": "EDS7150-2", "name": "EDS7150-2", "count": 12}, {"line": "测试线(EOL)", "code": "EDS7151-2", "name": "EDS7151-2", "count": 12}, {"line": "总成线", "code": "EDS6175-2", "name": "EDS6175-2", "count": 8}, {"line": "转子端盖线", "code": "EDS3100-2", "name": "EDS3100-2", "count": 7}, {"line": "轴系线", "code": "EDS4180", "name": "EDS4180", "count": 6}, {"line": "测试线(EOL)", "code": "EDS7020-2", "name": "EDS7020-2", "count": 6}, {"line": "热套线", "code": "EDS1080-7", "name": "EDS1080-7", "count": 6}, {"line": "总成线", "code": "EDS6580-1", "name": "EDS6580-1", "count": 6}, {"line": "转子端盖线", "code": "EDS3100-1", "name": "EDS3100-1", "count": 5}, {"line": "电机线", "code": "EDS2155-1", "name": "EDS2155-1", "count": 4}, {"line": "电机线", "code": "EDS2155-2", "name": "EDS2155-2", "count": 4}, {"line": "测试线(EOL)", "code": "EDS7220-1", "name": "EDS7220-1", "count": 4}, {"line": "总成线", "code": "EDS6230", "name": "EDS6230", "count": 3}, {"line": "测试线(EOL)", "code": "EDS7210-3", "name": "EDS7210-3", "count": 2}];
+const ngData = {stations:["EDS7150-2", "EDS7151-2", "EDS6175-2", "EDS3100-2", "EDS4180", "EDS7020-2", "EDS1080-7", "EDS6580-1", "EDS3100-1", "EDS2155-1", "EDS2155-2", "EDS7220-1", "EDS6230", "EDS7210-3"],counts:[12, 12, 8, 7, 6, 6, 6, 6, 5, 4, 4, 4, 3, 2]};
+const prodData = {labels:["P000024333001", "P000033464001"],values:[56146, 51]};
+const lineCodes = {labels:["热套线", "电机线", "总成线", "测试线(EOL)", "轴系线", "减速箱线", "转子端盖线", "精装返修", "逆变器装配线"],ins:[7108, 10884, 25565, 12558, 8029, 8014, 6137, 134, 1704],outs:[0, 0, 0, 0, 0, 0, 0, 0, 0]};
+const hourlyAndon = {hours:["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],counts:[19, 13, 5, 7, 13, 10, 6, 32, 12, 0, 1, 0, 0]};
+const taktActualData = {"lineNames": {"RTX": "热套线", "DJX": "电机线", "ZCX": "总成线", "EOL": "测试线(EOL)", "ZXX": "轴系线", "JSX": "减速箱线", "ZZDGX": "转子端盖线", "JZFX": "精装返修", "NBQZX": "逆变器装配线"}, "lineSummary": [{"line": "RTX", "avg_takt": 20.48, "station_count": 17, "bottleneck": "EDS1080-3"}, {"line": "DJX", "avg_takt": 43.86, "station_count": 21, "bottleneck": "EDS2155-1"}, {"line": "ZCX", "avg_takt": 4.33, "station_count": 52, "bottleneck": "EDS6610-2"}, {"line": "EOL", "avg_takt": 5.38, "station_count": 34, "bottleneck": "EDS7290-2"}, {"line": "ZXX", "avg_takt": 3.98, "station_count": 14, "bottleneck": "EDS4150-1"}, {"line": "JSX", "avg_takt": 6.67, "station_count": 13, "bottleneck": "EDS5075"}, {"line": "ZZDGX", "avg_takt": 2.56, "station_count": 13, "bottleneck": "EDS2105-2"}, {"line": "NBQZX", "avg_takt": 0.47, "station_count": 1, "bottleneck": "EDS6310-1"}], "lineDetails": {"RTX": [{"code": "EDS1080-3", "avg_takt": 164.25, "sample_count": 2}, {"code": "EDS1120-1", "avg_takt": 77.8285, "sample_count": 317}, {"code": "EDS1080-4", "avg_takt": 27.45, "sample_count": 3}, {"code": "EDS1060", "avg_takt": 22.1636, "sample_count": 341}, {"code": "EDS1080-8", "avg_takt": 21.5771, "sample_count": 8}, {"code": "EDS1080-7", "avg_takt": 15.7012, "sample_count": 14}, {"code": "EDS1080-1", "avg_takt": 7.6364, "sample_count": 143}, {"code": "EDS1080-2", "avg_takt": 7.2528, "sample_count": 138}, {"code": "EDS1130-1", "avg_takt": 1.7151, "sample_count": 296}, {"code": "EDS1045", "avg_takt": 0.8401, "sample_count": 163}, {"code": "EDS1150-2", "avg_takt": 0.4084, "sample_count": 288}, {"code": "EDS1050", "avg_takt": 0.3333, "sample_count": 340}, {"code": "EDS1010", "avg_takt": 0.3322, "sample_count": 325}, {"code": "EDS1030", "avg_takt": 0.3202, "sample_count": 338}, {"code": "EDS1040", "avg_takt": 0.1486, "sample_count": 173}, {"code": "EDS1020-2", "avg_takt": 0.103, "sample_count": 335}, {"code": "EDS1150-1", "avg_takt": 0.0667, "sample_count": 12}], "DJX": [{"code": "EDS2155-1", "avg_takt": 865.7333, "sample_count": 4}, {"code": "EDS2160", "avg_takt": 24.35, "sample_count": 4}, {"code": "EDS2010", "avg_takt": 20.4517, "sample_count": 300}, {"code": "EDS2050", "avg_takt": 1.9276, "sample_count": 295}, {"code": "EDS2170", "avg_takt": 1.0477, "sample_count": 281}, {"code": "EDS2230", "avg_takt": 0.7764, "sample_count": 280}, {"code": "EDS2210", "avg_takt": 0.7204, "sample_count": 281}, {"code": "EDS2190-2", "avg_takt": 0.6918, "sample_count": 281}, {"code": "EDS2155-2", "avg_takt": 0.6526, "sample_count": 13}, {"code": "EDS2140", "avg_takt": 0.6284, "sample_count": 281}, {"code": "EDS2110-2", "avg_takt": 0.527, "sample_count": 286}, {"code": "EDS2120", "avg_takt": 0.4731, "sample_count": 283}, {"code": "EDS2090-2", "avg_takt": 0.4438, "sample_count": 296}, {"code": "EDS2030", "avg_takt": 0.4333, "sample_count": 300}, {"code": "EDS2180-1", "avg_takt": 0.4167, "sample_count": 281}, {"code": "EDS2220", "avg_takt": 0.3881, "sample_count": 280}, {"code": "EDS2150", "avg_takt": 0.3501, "sample_count": 268}, {"code": "EDS2130", "avg_takt": 0.33, "sample_count": 282}, {"code": "EDS2080-1", "avg_takt": 0.3079, "sample_count": 301}, {"code": "EDS2240", "avg_takt": 0.3043, "sample_count": 280}, {"code": "EDS2260-1", "avg_takt": 0.1855, "sample_count": 265}], "ZCX": [{"code": "EDS6610-2", "avg_takt": 26.7927, "sample_count": 277}, {"code": "EDS6280-2", "avg_takt": 24.2644, "sample_count": 300}, {"code": "EDS6040", "avg_takt": 22.473, "sample_count": 299}, {"code": "EDS6080", "avg_takt": 21.9282, "sample_count": 292}, {"code": "EDS6170-2", "avg_takt": 21.2417, "sample_count": 305}, {"code": "EDS6460", "avg_takt": 20.6846, "sample_count": 296}, {"code": "EDS6071-1", "avg_takt": 20.5909, "sample_count": 292}, {"code": "EDS6260", "avg_takt": 16.2, "sample_count": 3}, {"code": "EDS6600", "avg_takt": 5.179, "sample_count": 289}, {"code": "EDS6070", "avg_takt": 3.6476, "sample_count": 293}, {"code": "EDS6440", "avg_takt": 3.16, "sample_count": 280}, {"code": "EDS6420", "avg_takt": 2.3066, "sample_count": 286}, {"code": "EDS6410", "avg_takt": 1.7702, "sample_count": 286}, {"code": "EDS6490", "avg_takt": 1.7333, "sample_count": 292}, {"code": "EDS6180", "avg_takt": 1.7241, "sample_count": 288}, {"code": "EDS6480", "avg_takt": 1.7175, "sample_count": 295}, {"code": "EDS6500", "avg_takt": 1.4718, "sample_count": 285}, {"code": "EDS6470", "avg_takt": 1.3978, "sample_count": 296}, {"code": "EDS6520", "avg_takt": 1.3966, "sample_count": 284}, {"code": "EDS6450", "avg_takt": 1.3962, "sample_count": 286}, {"code": "EDS6400", "avg_takt": 1.2539, "sample_count": 288}, {"code": "EDS6050-4", "avg_takt": 1.2435, "sample_count": 141}, {"code": "EDS6050-3", "avg_takt": 1.2013, "sample_count": 156}, {"code": "EDS6035-2", "avg_takt": 1.1394, "sample_count": 22}, {"code": "EDS6560-2", "avg_takt": 1.1114, "sample_count": 57}, {"code": "EDS6560-3", "avg_takt": 1.111, "sample_count": 88}, {"code": "EDS6560-1", "avg_takt": 1.1005, "sample_count": 146}, {"code": "EDS6580-1", "avg_takt": 1.0667, "sample_count": 151}, {"code": "EDS6580-3", "avg_takt": 1.0, "sample_count": 90}, {"code": "EDS6570-1", "avg_takt": 1.0, "sample_count": 146}, {"code": "EDS6570-3", "avg_takt": 0.9615, "sample_count": 87}, {"code": "EDS6580-2", "avg_takt": 0.9548, "sample_count": 52}, {"code": "EDS6570-2", "avg_takt": 0.95, "sample_count": 53}, {"code": "EDS6390", "avg_takt": 0.9132, "sample_count": 289}, {"code": "EDS6360", "avg_takt": 0.8565, "sample_count": 296}, {"code": "EDS6115", "avg_takt": 0.826, "sample_count": 70}, {"code": "EDS6375-1", "avg_takt": 0.8222, "sample_count": 154}, {"code": "EDS6075-1", "avg_takt": 0.7235, "sample_count": 299}, {"code": "EDS6340", "avg_takt": 0.5967, "sample_count": 296}, {"code": "EDS6030", "avg_takt": 0.5703, "sample_count": 254}, {"code": "EDS6175-2", "avg_takt": 0.5625, "sample_count": 298}, {"code": "EDS6230", "avg_takt": 0.4653, "sample_count": 286}, {"code": "EDS6250", "avg_takt": 0.4506, "sample_count": 285}, {"code": "EDS6240", "avg_takt": 0.4173, "sample_count": 285}, {"code": "EDS6320-1", "avg_takt": 0.3987, "sample_count": 299}, {"code": "EDS6350", "avg_takt": 0.3827, "sample_count": 142}, {"code": "EDS6020", "avg_takt": 0.371, "sample_count": 264}, {"code": "EDS6010", "avg_takt": 0.3454, "sample_count": 252}, {"code": "EDS6160-2", "avg_takt": 0.333, "sample_count": 293}, {"code": "EDS6370", "avg_takt": 0.3026, "sample_count": 296}, {"code": "EDS6270-2", "avg_takt": 0.2667, "sample_count": 288}, {"code": "EDS6090", "avg_takt": 0.1343, "sample_count": 296}], "EOL": [{"code": "EDS7290-2", "avg_takt": 53.237, "sample_count": 140}, {"code": "EDS7240", "avg_takt": 25.1773, "sample_count": 281}, {"code": "EDS7200", "avg_takt": 22.5147, "sample_count": 291}, {"code": "EDS7060", "avg_takt": 19.9622, "sample_count": 315}, {"code": "EDS7290-3", "avg_takt": 7.6794, "sample_count": 137}, {"code": "EDS7150-2", "avg_takt": 7.3334, "sample_count": 147}, {"code": "EDS7150-1", "avg_takt": 6.6072, "sample_count": 149}, {"code": "EDS7020-2", "avg_takt": 4.2411, "sample_count": 291}, {"code": "EDS7220-1", "avg_takt": 3.3559, "sample_count": 282}, {"code": "EDS7020-1", "avg_takt": 3.05, "sample_count": 15}, {"code": "EDS7030", "avg_takt": 2.6561, "sample_count": 298}, {"code": "EDS7149-2", "avg_takt": 2.6186, "sample_count": 152}, {"code": "EDS7149-1", "avg_takt": 2.503, "sample_count": 152}, {"code": "EDS7210-4", "avg_takt": 2.3667, "sample_count": 26}, {"code": "EDS7110", "avg_takt": 2.1461, "sample_count": 299}, {"code": "EDS7210-1", "avg_takt": 1.7333, "sample_count": 132}, {"code": "EDS7210-3", "avg_takt": 1.5723, "sample_count": 132}, {"code": "EDS7260", "avg_takt": 1.5403, "sample_count": 278}, {"code": "EDS7151-2", "avg_takt": 1.2225, "sample_count": 148}, {"code": "EDS7151-1", "avg_takt": 1.1, "sample_count": 149}, {"code": "EDS7080-4", "avg_takt": 1.1, "sample_count": 3}, {"code": "EDS7080-3", "avg_takt": 1.0833, "sample_count": 127}, {"code": "EDS7080-1", "avg_takt": 1.067, "sample_count": 180}, {"code": "EDS7080-2", "avg_takt": 1.0333, "sample_count": 10}, {"code": "EDS7090-2", "avg_takt": 0.8417, "sample_count": 8}, {"code": "EDS7090-3", "avg_takt": 0.8333, "sample_count": 124}, {"code": "EDS7090-1", "avg_takt": 0.8333, "sample_count": 175}, {"code": "EDS7230-1", "avg_takt": 0.7703, "sample_count": 275}, {"code": "EDS7130-1", "avg_takt": 0.6833, "sample_count": 5}, {"code": "EDS7070-2", "avg_takt": 0.6167, "sample_count": 325}, {"code": "EDS7130-2", "avg_takt": 0.5959, "sample_count": 291}, {"code": "EDS7040", "avg_takt": 0.3489, "sample_count": 297}, {"code": "EDS7270", "avg_takt": 0.3395, "sample_count": 280}, {"code": "EDS7115", "avg_takt": 0.1641, "sample_count": 308}], "ZXX": [{"code": "EDS4150-1", "avg_takt": 25.783, "sample_count": 291}, {"code": "EDS4040", "avg_takt": 22.5591, "sample_count": 285}, {"code": "EDS4130", "avg_takt": 1.4224, "sample_count": 286}, {"code": "EDS4180", "avg_takt": 0.7303, "sample_count": 315}, {"code": "EDS4010", "avg_takt": 0.7201, "sample_count": 284}, {"code": "EDS4020", "avg_takt": 0.6895, "sample_count": 283}, {"code": "EDS4100", "avg_takt": 0.6354, "sample_count": 277}, {"code": "EDS4120", "avg_takt": 0.5777, "sample_count": 244}, {"code": "EDS4110", "avg_takt": 0.5527, "sample_count": 252}, {"code": "EDS4030", "avg_takt": 0.5496, "sample_count": 283}, {"code": "EDS4090", "avg_takt": 0.5333, "sample_count": 283}, {"code": "EDS4050", "avg_takt": 0.4667, "sample_count": 285}, {"code": "EDS4070", "avg_takt": 0.45, "sample_count": 284}, {"code": "EDS4155-1", "avg_takt": 0.0167, "sample_count": 293}], "JSX": [{"code": "EDS5075", "avg_takt": 31.6386, "sample_count": 230}, {"code": "EDS5050-2", "avg_takt": 24.0271, "sample_count": 284}, {"code": "EDS5140-2", "avg_takt": 20.6771, "sample_count": 295}, {"code": "EDS5010", "avg_takt": 2.6451, "sample_count": 272}, {"code": "EDS5040", "avg_takt": 2.2771, "sample_count": 276}, {"code": "EDS5080", "avg_takt": 1.8022, "sample_count": 294}, {"code": "EDS5100", "avg_takt": 0.9493, "sample_count": 290}, {"code": "EDS5090", "avg_takt": 0.7924, "sample_count": 292}, {"code": "EDS5020", "avg_takt": 0.5936, "sample_count": 272}, {"code": "EDS5120-1", "avg_takt": 0.5322, "sample_count": 287}, {"code": "EDS5130-1", "avg_takt": 0.3833, "sample_count": 287}, {"code": "EDS5110", "avg_takt": 0.2981, "sample_count": 287}, {"code": "EDS5030", "avg_takt": 0.1369, "sample_count": 274}], "ZZDGX": [{"code": "EDS2105-2", "avg_takt": 26.3429, "sample_count": 288}, {"code": "EDS3020", "avg_takt": 1.663, "sample_count": 258}, {"code": "EDS3100-1", "avg_takt": 1.0531, "sample_count": 103}, {"code": "EDS3025", "avg_takt": 0.836, "sample_count": 254}, {"code": "EDS3010", "avg_takt": 0.6116, "sample_count": 266}, {"code": "EDS3100-2", "avg_takt": 0.5696, "sample_count": 194}, {"code": "EDS3090", "avg_takt": 0.4518, "sample_count": 291}, {"code": "EDS3070", "avg_takt": 0.3969, "sample_count": 280}, {"code": "EDS3040-1", "avg_takt": 0.3692, "sample_count": 280}, {"code": "EDS3060", "avg_takt": 0.3657, "sample_count": 280}, {"code": "EDS3055", "avg_takt": 0.2833, "sample_count": 7}, {"code": "EDS3030", "avg_takt": 0.1611, "sample_count": 281}, {"code": "EDS3050", "avg_takt": 0.1167, "sample_count": 273}], "NBQZX": [{"code": "EDS6310-1", "avg_takt": 0.4717, "sample_count": 284}]}};
+
+// 切换线体详情显示
+function toggleLineDetail(lineCode) {
+  const summaryView = document.getElementById('takt-summary-view');
+  const container = document.getElementById('takt-detail-container');
+
+  if (container.querySelector(`#detail-${lineCode}`)) {
+    // 已存在，切换显示
+    const existing = container.querySelector(`#detail-${lineCode}`);
+    if (existing.style.display === 'none') {
+      summaryView.style.display = 'none';
+      existing.style.display = 'block';
+    } else {
+      existing.style.display = 'none';
+      summaryView.style.display = 'block';
+    }
+  } else {
+    // 动态生成详情表格
+    const stations = taktActualData.lineDetails[lineCode] || [];
+    const lineName = taktActualData.lineNames[lineCode] || lineCode;
+
+    let tableRows = '';
+    stations.forEach((s, i) => {
+      const isOver = s.avg_takt > 5.0;
+      tableRows += `<tr><td>${i+1}</td><td style="text-align:left;font-weight:500">${s.code}</td><td style="text-align:left">${s.name}</td><td style="font-weight:700;color:${isOver?'var(--red)':'var(--green)'}">${s.avg_takt.toFixed(2)}min</td><td>${s.sample_count}</td><td><span class="st ${isOver?'sh':'sl'}">${isOver?'超标准':'达标'}</span></td></tr>`;
+    });
+
+    const detailHtml = `<div id="detail-${lineCode}" style="margin-top:12px"><div class="cc"><div class="ct" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px"><span>📋 ${lineName} - 各工位节拍详情（${stations.length}个工位）</span><button onclick="toggleLineDetail('${lineCode}')" style="padding:4px 12px;background:var(--bdr);border:none;border-radius:4px;color:var(--txt);cursor:pointer;font-size:11px;white-space:nowrap">← 返回线体汇总</button></div><div class="cs">基于SN过站历史表计算的实际节拍，红色标注超5分钟工位</div><div class="table-wrap"><table style="margin-top:10px"><thead><tr><th>序号</th><th style="text-align:left">工位编码</th><th style="text-align:left">工位名称</th><th>平均节拍</th><th>样本数</th><th>状态</th></tr></thead><tbody>${tableRows}</tbody></table></div></div></div>`;
+
+    container.innerHTML = detailHtml;
+    summaryView.style.display = 'none';
+  }
+}
+
+/* ===== Charts ===== */
+
+// 1. 各线流经量
+new Chart(document.getElementById('chOut'),{type:'bar',data:{labels:outData.labels,datasets:[{label:'流经量(台)',data:outData.values,backgroundColor:[C.bA,'rgba(139,92,246,.3)',C.gA,C.oA,C.cA,C.pkA,'rgba(239,68,68,.3)','rgba(148,163,184,.2)'],borderColor:[C.blue,C.purple,C.green,C.orange,C.cyan,C.pink,C.red,'#94a3b8'],borderWidth:1.5,borderRadius:6,maxBarThickness:60}]},options:{responsive:true,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:'#e4e4e7',font:{size:isSmallScreen()?9:11,weight:'bold'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false},ticks:{font:{size:isSmallScreen()?8:10},maxRotation:isSmallScreen()?60:45,minRotation:0}}}},plugins:[ChartDataLabels]});
+
+// 2. 安灯按线体
+new Chart(document.getElementById('chAndonLine'),{type:'bar',data:{labels:andonLine.labels,datasets:[
+  {label:'安灯次数',data:andonLine.counts,backgroundColor:C.rA,borderColor:C.red,borderWidth:1.5,borderRadius:5,yAxisID:'y'},
+  {label:'累计分钟',data:andonLine.mins,type:'line',borderColor:C.orange,backgroundColor:'transparent',pointRadius:5,pointBackgroundColor:C.orange,borderWidth:2.5,tension:.3,yAxisID:'y1'}
+]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:10,font:{size:10}}},datalabels:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'次数',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y1:{beginAtZero:true,position:'right',title:{display:true,text:'分钟',font:{size:9}},grid:{drawOnChartArea:false}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+// 3. 安灯工位Top10
+new Chart(document.getElementById('chAndonSt'),{type:'bar',data:{labels:andonStations.labels,datasets:[
+  {label:'安灯次数',data:andonStations.counts,backgroundColor:C.rA,borderColor:C.red,borderWidth:1.5,borderRadius:5},
+  {label:'累计分钟',data:andonStations.mins,backgroundColor:'rgba(245,158,11,.3)',borderColor:C.orange,borderWidth:1.5,borderRadius:5}
+]},options:{indexAxis:'y',responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:10,font:{size:10}}},datalabels:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:isSmallScreen()?7:9}}}}}});
+
+// 4. 停机时间线
+const tl=document.getElementById('timeline');
+topEvents.forEach(e=>{
+  const color=e.sec>100?'var(--red)':e.sec>50?'var(--orange)':'var(--blue)';
+  const mins=(e.sec/60).toFixed(1);
+  tl.innerHTML+=`<div class="ti"><div class="td" style="background:${color}"></div><div class="tt">${e.time}</div><div class="tr2">${e.line} · ${e.station}</div><div class="tdr" style="color:${color}">${mins}m</div></div>`;
+});
+
+// 5. FAIL分布
+new Chart(document.getElementById('chFail'),{type:'bar',data:{labels:failData.map(d=>d.name),datasets:[{label:'FAIL数',data:failData.map(d=>d.count),backgroundColor:failData.map(d=>d.line==='总成线'?C.rA:d.line==='电机线'?C.pA:C.oA),borderColor:failData.map(d=>d.line==='总成线'?C.red:d.line==='电机线'?C.purple:C.orange),borderWidth:1.5,borderRadius:5}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#e4e4e7',font:{size:isSmallScreen()?8:10,weight:'bold'}}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{stepSize:1}},y:{grid:{display:false},ticks:{font:{size:isSmallScreen()?7:9}}}}},plugins:[ChartDataLabels]});
+
+// 6. NG帕累托
+const ngTotal=ngData.counts.reduce((a,b)=>a+b,0);let ngCum=0;const ngPct=ngData.counts.map(v=>{ngCum+=v;return+(ngCum/ngTotal*100).toFixed(1)});
+new Chart(document.getElementById('chNG'),{type:'bar',data:{labels:ngData.stations,datasets:[
+  {label:'NG数',data:ngData.counts,backgroundColor:ngData.counts.map((_,i)=>i<3?'rgba(239,68,68,.35)':i<6?'rgba(245,158,11,.3)':'rgba(59,130,246,.25)'),borderColor:ngData.counts.map((_,i)=>i<3?C.red:i<6?C.orange:C.blue),borderWidth:1.5,borderRadius:5,yAxisID:'y'},
+  {label:'累计%',data:ngPct,type:'line',borderColor:C.pink,backgroundColor:'transparent',pointRadius:3,borderWidth:2,tension:.3,yAxisID:'y1'}
+]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:10,font:{size:10}}},datalabels:{display:ctx=>ctx.datasetIndex===1,anchor:'end',align:'top',color:C.pink,font:{size:isSmallScreen()?7:9,weight:'bold'},formatter:v=>v+'%'}},scales:{y:{beginAtZero:true,title:{display:!isSmallScreen(),text:'数量',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y1:{min:0,max:100,position:'right',ticks:{callback:v=>v+'%'},grid:{drawOnChartArea:false}},x:{grid:{display:false},ticks:{font:{size:isSmallScreen()?6:8},maxRotation:isSmallScreen()?60:0}}}},plugins:[ChartDataLabels]});
+
+// 7. FAIL明细表
+const ft=document.getElementById('failTable');
+failData.forEach(d=>{
+  const cls=d.count>=3?'sh':d.count>=2?'sm':'sl';
+  ft.innerHTML+=`<tr><td class="ln">${d.line}</td><td>${d.code}</td><td>${d.name}</td><td style="font-weight:700;color:${d.count>=3?'var(--red)':d.count>=2?'var(--orange)':'var(--txt)'}">${d.count}</td><td>OUT</td><td><span class="st ${cls}">${d.count>=3?'严重':d.count>=2?'中等':'一般'}</span></td></tr>`;
+});
+
+// 8. 产品型号
+new Chart(document.getElementById('chProd'),{type:'doughnut',data:{labels:prodData.labels,datasets:[{data:prodData.values,backgroundColor:[C.blue,C.purple,C.green,C.orange,C.cyan],borderColor:'#1a1d27',borderWidth:3}]},options:{responsive:true,cutout:'55%',plugins:{legend:{position:'right',labels:{usePointStyle:true,padding:8,font:{size:10}}},datalabels:{color:'#fff',font:{weight:'bold',size:10},formatter:(v,ctx)=>{const s=ctx.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);return(Math.round(v/s*100))+'%'}}}},plugins:[ChartDataLabels]});
+
+// 9. IN/OUT
+new Chart(document.getElementById('chInOut'),{type:'bar',data:{labels:lineCodes.labels,datasets:[
+  {label:'IN',data:lineCodes.ins,backgroundColor:C.bA,borderColor:C.blue,borderWidth:1.5,borderRadius:5,maxBarThickness:40},
+  {label:'OUT',data:lineCodes.outs,backgroundColor:C.gA,borderColor:C.green,borderWidth:1.5,borderRadius:5,maxBarThickness:40}
+]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:10,font:{size:10}}},datalabels:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false},ticks:{font:{size:isSmallScreen()?7:8},maxRotation:isSmallScreen()?60:0}}}}});
+
+// 10. 时段分布
+new Chart(document.getElementById('chHourly'),{type:'bar',data:{labels:hourlyAndon.hours.map(h=>h+':00'),datasets:[{label:'安灯次数',data:hourlyAndon.counts,backgroundColor:hourlyAndon.counts.map(v=>v>=12?'rgba(239,68,68,.4)':v>=8?'rgba(245,158,11,.35)':v>=5?'rgba(59,130,246,.3)':'rgba(100,116,139,.25)'),borderColor:hourlyAndon.counts.map(v=>v>=12?C.red:v>=8?C.orange:v>=5?C.blue:C.slate),borderWidth:1.5,borderRadius:6,maxBarThickness:40}]},options:{responsive:true,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:'#e4e4e7',font:{size:isSmallScreen()?8:10,weight:'bold'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false},ticks:{font:{size:isSmallScreen()?8:10}}}}},plugins:[ChartDataLabels]});
+</script>
+</body>
+</html>
