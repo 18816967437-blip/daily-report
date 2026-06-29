@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EDS 3.0 电驱车间生产日报 — 2026-06-29</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+:root{--bg:#0f1117;--card:#1a1d27;--bdr:#2a2d3a;--txt:#e4e4e7;--dim:#8b8fa3;--blue:#3b82f6;--purple:#8b5cf6;--green:#22c55e;--red:#ef4444;--orange:#f59e0b;--cyan:#06b6d4;--pink:#ec4899;--slate:#64748b;--r:12px}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{font-family:-apple-system,'Segoe UI','PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;padding:12px;font-size:13px;max-width:1600px;margin:0 auto}
+h1{font-size:clamp(18px,4vw,24px);font-weight:700;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center}
+.sub{text-align:center;color:var(--dim);font-size:12px;margin:3px 0 5px}
+.badge{display:inline-block;background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;padding:4px 14px;border-radius:18px;font-size:12px;font-weight:600}
+.hdr{text-align:center;margin-bottom:16px}
+.src{font-size:10px;color:var(--dim);text-align:center;margin-top:4px}
+
+/* KPI */
+.kpi{display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
+.kc{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 8px;text-align:center;position:relative;overflow:hidden}
+.kc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.kc.c1::before{background:var(--green)}.kc.c2::before{background:var(--blue)}.kc.c3::before{background:var(--purple)}.kc.c4::before{background:var(--orange)}.kc.c5::before{background:var(--cyan)}.kc.c6::before{background:var(--pink)}.kc.c7::before{background:var(--red)}.kc.c8::before{background:var(--slate)}
+.kl{font-size:10px;color:var(--dim);margin-bottom:5px}.kv{font-size:22px;font-weight:700}
+.kc.c1 .kv{color:var(--green)}.kc.c2 .kv{color:var(--blue)}.kc.c3 .kv{color:var(--purple)}.kc.c4 .kv{color:var(--orange)}.kc.c5 .kv{color:var(--cyan)}.kc.c6 .kv{color:var(--pink)}.kc.c7 .kv{color:var(--red)}.kc.c8 .kv{color:#94a3b8}
+.ku{font-size:10px;color:var(--dim)}.kd{font-size:9px;margin-top:3px}.kd.up{color:var(--green)}.kd.down{color:var(--red)}
+.tg{font-size:9px;padding:2px 5px;border-radius:3px;display:inline-block;margin-top:3px}
+.tg.ok{background:rgba(34,197,94,.15);color:var(--green)}.tg.no{background:rgba(239,68,68,.15);color:var(--red)}
+
+/* Grid */
+.g{display:grid;gap:12px;margin-bottom:12px}
+.g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:1fr 1fr 1fr}.g23{grid-template-columns:2fr 1fr}.g1{grid-template-columns:1fr}
+.cc{background:var(--card);border:1px solid var(--bdr);border-radius:var(--r);padding:14px}
+.ct{font-size:13px;font-weight:600;margin-bottom:2px}.cs{font-size:10px;color:var(--dim);margin-bottom:10px}
+
+/* 图表响应式容器 */
+.chart-container{position:relative;width:100%;height:280px;min-height:180px}
+
+/* Tables */
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th,td{padding:6px 7px;text-align:center;border-bottom:1px solid var(--bdr)}
+th{color:var(--dim);font-weight:500;font-size:10px;white-space:nowrap}
+tr:hover{background:rgba(59,130,246,.04)}
+.ln{text-align:left!important;font-weight:600}
+.st{padding:1px 5px;border-radius:3px;font-size:9px;font-weight:600}
+.sh{background:rgba(239,68,68,.15);color:var(--red)}.sm{background:rgba(245,158,11,.15);color:var(--orange)}.sl{background:rgba(59,130,246,.15);color:var(--blue)}
+
+/* Timeline */
+.ti{display:flex;align-items:center;padding:6px 0;border-bottom:1px solid var(--bdr);font-size:11px}.ti:last-child{border-bottom:none}
+.td{width:8px;height:8px;border-radius:50%;margin-right:7px;flex-shrink:0}
+.tt{color:var(--dim);width:50px;flex-shrink:0;font-size:10px}
+.tr2{flex:1;font-size:11px;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tdr{font-weight:600;width:48px;text-align:right;flex-shrink:0;font-size:11px}
+
+/* Flow diagram */
+.flow{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:12px 0;font-size:11px}
+.flow-item{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:8px 12px;min-width:80px;text-align:center}
+.flow-item.main{border-color:var(--blue);background:rgba(59,130,246,.1)}
+.flow-item.sub{border-color:var(--purple);background:rgba(139,92,246,.1)}
+.flow-item.start{border-color:var(--green);background:rgba(34,197,94,.15)}
+.flow-item.end{border-color:var(--orange);background:rgba(245,158,11,.15)}
+.flow-arrow{color:var(--dim);font-size:16px}
+.flow-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:6px}
+.flow-scroll::-webkit-scrollbar{height:4px}
+.flow-scroll::-webkit-scrollbar-thumb{background:var(--bdr);border-radius:2px}
+
+/* 节拍线体卡片网格 */
+.takt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:8px}
+
+/* 摘要行 */
+.summary-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px dashed var(--bdr);font-size:12px;line-height:1.8}
+
+/* footer */
+.ft{text-align:center;color:var(--dim);font-size:10px;margin-top:16px;padding:12px;border-top:1px solid var(--bdr)}
+.ft span{margin:0 8px}
+
+/* ========== 响应式断点 ========== */
+
+/* <=1400px: 宽平板/小桌面 */
+@media(max-width:1400px){
+  .kpi{grid-template-columns:repeat(4,1fr)}
+  .g2,.g23{grid-template-columns:1fr}
+  .chart-container{height:250px}
+}
+
+/* <=1024px: 平板横屏 */
+@media(max-width:1024px){
+  .kpi{grid-template-columns:repeat(4,1fr)}
+  .chart-container{height:230px}
+  .flow-main-row{flex-wrap:wrap;justify-content:center}
+  .flow-main-row .flow-arrow{display:none}
+  .flow-main-row .flow-item{min-width:90px}
+  .three-col-row{grid-template-columns:1fr!important}
+}
+
+/* <=768px: 平板竖屏 / 大手机 */
+@media(max-width:768px){
+  body{padding:8px;font-size:12px}
+  .kpi{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:1fr}
+  .chart-container{height:200px;min-height:160px}
+  .kv{font-size:18px}
+  .flow-sub-row{flex-wrap:wrap}
+  .flow-sub-row .flow-item{min-width:80px}
+  .summary-row{font-size:11px}
+  .ft span{display:block;margin:2px 0}
+}
+
+/* <=480px: 手机 */
+@media(max-width:480px){
+  body{padding:6px;font-size:11px}
+  .kpi{grid-template-columns:1fr 1fr;gap:6px}
+  .kc{padding:10px 6px}
+  .kv{font-size:16px}
+  .ku{font-size:9px}
+  .kl{font-size:9px}
+  .cc{padding:10px}
+  .ct{font-size:12px}
+  .cs{font-size:9px}
+  .chart-container{height:180px;min-height:140px}
+  .takt-grid{grid-template-columns:1fr 1fr}
+  .badge{font-size:11px;padding:3px 10px}
+  .flow-item{padding:6px 8px;min-width:70px;font-size:10px}
+  .flow-arrow{font-size:13px}
+}
+
+/* <=360px: 超小屏 */
+@media(max-width:360px){
+  .kpi{grid-template-columns:1fr}
+  .takt-grid{grid-template-columns:1fr}
+}
+
+/* hover 效果仅在有指针设备时生效 */
+@media(hover:hover){
+  .cc:hover{border-color:rgba(59,130,246,.3);box-shadow:0 4px 12px rgba(0,0,0,.2)}
+  .kc:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.3)}
+}
+.cc,.kc{transition:all 0.3s ease}
+@keyframes fi{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}.kc,.cc{animation:fi .35s ease-out both}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <h1>EDS 3.0 电驱车间生产日报</h1>
+  <div class="sub">Electric Drive System Workshop — Daily Production Report</div>
+  <div class="badge">2026-06-29 星期一 · 白班 08:00–20:00</div>
+  <div class="src">数据来源：安灯系统 (96条) + SN过站系统 (23,314条) · 数据时间 07:56–20:57</div>
+</div>
+
+<!-- 工艺流程示意 -->
+<div class="cc" style="margin-bottom:14px">
+  <div class="ct">🔄 工艺流程示意</div>
+  <div class="cs">上线工位 EDS1010 → 主线加工流程 → 下线工位 EDS7290（全流程完成）</div>
+  <div style="margin:16px 0">
+    <!-- 支线区域 -->
+    <div style="display:flex;justify-content:center;gap:8px;margin-bottom:12px;text-align:center;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="flow-item sub" style="min-width:90px"><div style="font-weight:600">转子端盖线</div><div style="font-size:10px">0台</div></div>
+        <div style="color:var(--purple);font-size:11px;margin-top:4px">↓ 转线</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="flow-item sub" style="min-width:90px"><div style="font-weight:600">轴系线</div><div style="font-size:10px">0台</div></div>
+        <div style="color:var(--purple);font-size:11px;margin-top:4px">↓ 转线</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center">
+        <div class="flow-item sub" style="min-width:90px"><div style="font-weight:600">减速箱线</div><div style="font-size:10px">0台</div></div>
+        <div style="color:var(--purple);font-size:11px;margin-top:4px">↓ 转线</div>
+      </div>
+    </div>
+    <!-- 主线区域：窄屏可横滚 -->
+    <div class="flow-scroll">
+      <div class="flow-main-row" style="display:flex;align-items:center;justify-content:center;gap:4px;min-width:fit-content">
+        <div class="flow-item start" style="min-width:80px"><div style="font-weight:700;color:var(--green)">上线</div><div>EDS1010</div><div style="font-size:10px">0台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item main" style="min-width:80px"><div style="font-weight:600">热套线</div><div style="font-size:10px">0台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item main" style="min-width:80px;border-color:var(--purple);background:rgba(139,92,246,.1)"><div style="font-weight:600">电机线</div><div style="font-size:10px">0台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item main" style="min-width:80px;border-color:var(--purple);background:rgba(139,92,246,.1)"><div style="font-weight:600">总成线</div><div style="font-size:10px">0台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item main" style="min-width:80px"><div style="font-weight:600">测试线</div><div style="font-size:10px">（EOL）</div><div style="font-size:10px">2台</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-item end" style="min-width:80px"><div style="font-weight:700;color:var(--orange)">下线</div><div>EDS7290</div><div style="font-size:10px">0台</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="font-size:10px;color:var(--dim);text-align:center;margin-top:12px;padding-top:10px;border-top:1px dashed var(--bdr)">
+    支线说明：转子端盖线 → 转线 → 电机线 &nbsp;|&nbsp; 轴系线 → 转线 → 总成线 &nbsp;|&nbsp; 减速箱线 → 转线 → 总成线
+  </div>
+</div>
+
+<!-- KPI -->
+<div class="cc" style="margin-bottom:14px;background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(139,92,246,.1));border-color:var(--blue)">
+  <div class="ct" style="font-size:15px;display:flex;align-items:center;gap:8px">
+    <span style="display:inline-block;width:4px;height:20px;background:linear-gradient(180deg,var(--blue),var(--purple));border-radius:2px"></span>
+    📊 核心生产数据面板
+  </div>
+  <div class="cs">关键生产指标总览</div>
+  <div class="kpi" style="margin-top:12px">
+  <div class="kc c1"><div class="kl">上线投料</div><div class="kv">0</div><div class="ku">台 (EDS1010)</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">计划 88 台</div><div style="font-size:9px;color:var(--dim)">达成率</div></div><div style="font-size:16px;font-weight:700;color:var(--green);text-align:right">0.0%</div></div></div>
+  <div class="kc c2"><div class="kl">全流程产出</div><div class="kv">0</div><div class="ku">台 (EDS7290)</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">计划 88 台</div><div style="font-size:9px;color:var(--dim)">达成率</div></div><div style="font-size:16px;font-weight:700;color:var(--green);text-align:right">0.0%</div></div></div>
+  <div class="kc c3"><div class="kl">一次通过率 FTT</div><div class="kv">100.0%</div><div class="ku">不合格 0 / 2</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">目标 ≥97%</div><div style="font-size:12px;font-weight:700;color:var(--green)">✓ 达标 +3.0%</div></div></div></div>
+  <div class="kc c4"><div class="kl">产线节拍</div><div class="kv">0.0</div><div class="ku">JPH · CT 0.0min</div><div style="margin-top:4px;font-size:9px;color:var(--dim)">OEE 97.9%</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">目标 8 JPH</div><div style="font-size:16px;font-weight:700;color:var(--orange);text-align:right">0.0%</div></div></div></div>
+  <div class="kc c5"><div class="kl">线下返修数</div><div class="kv">0</div><div class="ku">台</div></div>
+  <div class="kc c6"><div class="kl">线下返修率</div><div class="kv">0.0%</div><div class="ku">0 / 2</div><div class="tg ok">达标</div></div>
+  <div class="kc c7"><div class="kl">设备开动率</div><div class="kv">97.9%</div><div class="ku">停机 10min / 480min</div><div style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--bdr)"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-size:9px;color:var(--dim)">目标 ≥93%</div><div style="font-size:12px;font-weight:700;color:var(--green)">✓ 达标 +4.9%</div></div></div></div>
+  <div class="kc c8"><div class="kl">产品型号</div><div class="kv" style="font-size:14px">P000024333001</div><div class="ku">共2种型号</div></div>
+</div>
+</div>
+
+<!-- 生产总结与建议 -->
+<div class="g g2" style="margin-bottom:14px">
+  <div class="cc" style="background:linear-gradient(135deg,rgba(34,197,94,.08),rgba(59,130,246,.08))">
+    <div class="ct">📋 今日生产总结</div>
+    <div style="margin-top:10px">
+      <div class="summary-row">
+        <span style="color:var(--dim)">上线投料</span>
+        <span style="font-weight:600">0台 <span style="color:var(--orange)">✓ 0.0%</span></span>
+      </div>
+      <div class="summary-row">
+        <span style="color:var(--dim)">全流程产出</span>
+        <span style="font-weight:600">0台 <span style="color:var(--orange)">✓ 0.0%</span></span>
+      </div>
+      <div class="summary-row">
+        <span style="color:var(--dim)">一次通过率 FTT</span>
+        <span style="font-weight:600">100.0% <span style="color:var(--green)">✓ 达标</span></span>
+      </div>
+      <div class="summary-row">
+        <span style="color:var(--dim)">产线节拍</span>
+        <span style="font-weight:600">0.0 JPH <span style="color:var(--orange)">✗ 未达标 0%</span></span>
+      </div>
+      <div class="summary-row">
+        <span style="color:var(--dim)">设备开动率</span>
+        <span style="font-weight:600">97.9% <span style="color:var(--green)">✓ 达标</span></span>
+      </div>
+      <div class="summary-row" style="border-bottom:none">
+        <span style="color:var(--dim)">线下返修</span>
+        <span style="font-weight:600">0台 / 0.0%</span>
+      </div>
+    </div>
+    <div style="margin-top:12px;padding:8px;background:rgba(245,158,11,.1);border-radius:6px;border-left:3px solid var(--orange)">
+      <div style="font-size:11px;color:var(--orange);font-weight:600">⚠️ 关注项</div>
+      <div style="font-size:11px;color:var(--dim);margin-top:4px">产线节拍0.0JPH未达8目标，产出效率偏低</div>
+    </div>
+  </div>
+  <div class="cc" style="background:linear-gradient(135deg,rgba(245,158,11,.08),rgba(239,68,68,.08))">
+    <div class="ct">💡 生产改善建议</div>
+    <div style="margin-top:10px;font-size:12px;line-height:1.8">
+<div style="padding:8px;background:rgba(239,68,68,.08);border-radius:6px;margin-bottom:8px;border-left:3px solid var(--red)">
+  <div style="font-weight:600;color:var(--red);margin-bottom:4px">🔴 优先改善：设备一级报警问题</div>
+  <div style="color:var(--dim)">设备一级报警故障2次，热套线(1次)为重灾区</div>
+  <div style="color:var(--txt);margin-top:4px;font-weight:500">→ 检查传感器状态和参数设置，排查误报原因</div>
+</div>
+    </div>
+  </div>
+</div>
+
+<!-- R1: 各线流经量 -->
+<div class="g g1">
+  <div class="cc" id="detail-flow">
+    <div class="ct">📊 各线体产品流经量（唯一SN数）</div>
+    <div class="cs">各支线独立统计，展示当日流经该线体的产品数量（非累加）</div>
+    <div class="chart-container"><canvas id="chOut"></canvas></div>
+  </div>
+</div>
+
+<!-- R2: 安灯分布 + 安灯工位Top10 + 停机时间线 -->
+<div class="g g3 three-col-row" style="margin-bottom:12px">
+  <div class="cc" id="detail-andon-line">
+    <div class="ct">⏱️ 各线体安灯触发次数</div>
+    <div class="cs">安灯历史记录按线体汇总</div>
+    <div class="chart-container"><canvas id="chAndonLine"></canvas></div>
+  </div>
+  <div class="cc" id="detail-andon-station">
+    <div class="ct">🔍 安灯工位 Top 10</div>
+    <div class="cs">按累计停机分钟排序</div>
+    <div class="chart-container"><canvas id="chAndonSt"></canvas></div>
+  </div>
+  <div class="cc">
+    <div class="ct">📋 最长停机事件 Top 10</div>
+    <div class="cs">按持续时长排序</div>
+    <div id="timeline"></div>
+  </div>
+</div>
+
+<!-- 安灯时段分布 -->
+<div class="g g1">
+  <div class="cc">
+    <div class="ct">🕐 安灯事件时段分布</div>
+    <div class="cs">按小时统计安灯触发次数，识别高发时段</div>
+    <div class="chart-container" style="height:220px"><canvas id="chHourly"></canvas></div>
+  </div>
+</div>
+
+<!-- R3: 质量 FAIL + NG帕累托 -->
+<div class="g g2">
+  <div class="cc" id="detail-fail">
+    <div class="ct">❌ 过站 NG 记录分布</div>
+    <div class="cs">SN 过站系统中上报结果为 FAIL 的记录，按线体和工位统计</div>
+    <div class="chart-container"><canvas id="chFail"></canvas></div>
+  </div>
+  <div class="cc" id="detail-ng">
+    <div class="ct">🔄 线下返修帕累托分析</div>
+    <div class="cs">按工位统计 NG 拉入/拉出记录，柱=数量，折线=累计占比</div>
+    <div class="chart-container"><canvas id="chNG"></canvas></div>
+  </div>
+</div>
+
+<!-- R4: 质量明细表 -->
+<div class="g g1">
+  <div class="cc">
+    <div class="ct">⚠️ NG 工位明细（19 条）</div>
+    <div class="cs">来自 SN 过站历史表，过站上报结果为 FAIL 的全部记录</div>
+    <div class="table-wrap">
+    <table>
+      <thead><tr><th>线体</th><th>工位编码</th><th>工位名称</th><th>SN码（截取）</th><th>过站类型</th><th>等级</th></tr></thead>
+      <tbody id="failTable"></tbody>
+    </table>
+    </div>
+  </div>
+</div>
+
+<!-- R5: 产品型号 + 过站类型 -->
+<div class="g g2">
+  <div class="cc" id="detail-product">
+    <div class="ct">📦 产品型号分布</div>
+    <div class="cs">按产品料号统计过站记录数</div>
+    <div class="chart-container" style="height:240px"><canvas id="chProd"></canvas></div>
+  </div>
+  <div class="cc">
+    <div class="ct">📈 各线体 IN/OUT 过站量</div>
+    <div class="cs">按产线编码统计 IN 和 OUT 记录数</div>
+    <div class="chart-container" style="height:240px"><canvas id="chInOut"></canvas></div>
+  </div>
+</div>
+
+<!-- R6: 工位节拍分析 -->
+<div class="g g1">
+  <div class="cc" id="detail-takt">
+    <div class="ct">⏱️ 各线体工位节拍分析</div>
+    <div class="cs">基于SN过站历史表计算的实际工位节拍，点击查看各工位详情</div>
+
+    <!-- 线体汇总视图 -->
+    <div id="takt-summary-view" style="margin-top:12px">
+      <div class="takt-grid">
+</div>
+</div>
+<!-- 各线体工位详情（动态生成） -->
+    <div id="takt-detail-container"></div>
+  </div>
+</div>
+
+
+<div class="ft">
+  <span>制表：小米制造工程部</span><span>|</span><span>审核：_______________</span><span>|</span><span>批准：_______________</span>
+  <br><br><span>EDS 3.0 电驱车间生产日报 · 2026-05-08 · 数据自动采集自安灯系统 & SN过站系统</span>
+</div>
+
+<script>
+Chart.defaults.color='#8b8fa3';Chart.defaults.borderColor='rgba(255,255,255,.06)';
+Chart.defaults.font.family="-apple-system,'PingFang SC','Microsoft YaHei',sans-serif";
+Chart.defaults.responsive=true;Chart.defaults.maintainAspectRatio=false;
+
+/* 小屏幕自动隐藏 datalabels */
+const isSmallScreen = () => window.innerWidth <= 768;
+const smallScreenPlugin = {id:'smallScreenDatalabels',beforeInit(chart){
+  if(isSmallScreen()){
+    const dl = chart.options.plugins && chart.options.plugins.datalabels;
+    if(dl) dl.display=false;
+  }
+}};
+Chart.register(smallScreenPlugin);
+
+/* Chart.js 全局字号跟随屏幕 */
+function updateChartFontSizes(){
+  const w = window.innerWidth;
+  if(w <= 480){
+    Chart.defaults.font.size = 9;
+  } else if(w <= 768){
+    Chart.defaults.font.size = 10;
+  } else {
+    Chart.defaults.font.size = 12;
+  }
+}
+updateChartFontSizes();
+window.addEventListener('resize', updateChartFontSizes);
+const C={blue:'#3b82f6',purple:'#8b5cf6',green:'#22c55e',red:'#ef4444',orange:'#f59e0b',cyan:'#06b6d4',pink:'#ec4899',slate:'#64748b',
+  bA:'rgba(59,130,246,.3)',pA:'rgba(139,92,246,.3)',gA:'rgba(34,197,94,.3)',rA:'rgba(239,68,68,.3)',oA:'rgba(245,158,11,.3)',cA:'rgba(6,182,212,.3)',pkA:'rgba(236,72,153,.3)'};
+
+/* ===== 真实数据 ===== */
+const outData = {labels:["测试线(EOL)"],values:[2]};
+const andonLine = {labels:["热套线", "测试线(EOL)"],counts:[1, 1],mins:[0, 0]};
+const andonStations = {labels:["EDS1010", "EDS7020-1"],counts:[1, 1],mins:[0.0, 0.0]};
+const topEvents = [];
+const failData = [];
+const ngData = {stations:[],counts:[]};
+const prodData = {labels:["P000033464001", "P000024333001"],values:[6, 18]};
+const lineCodes = {labels:["测试线(EOL)"],ins:[24],outs:[0]};
+const hourlyAndon = {hours:["08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],counts:[0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0]};
+const taktActualData = {"lineNames": {"EOL": "测试线(EOL)"}, "lineSummary": [], "lineDetails": {}};
+
+// 切换线体详情显示
+function toggleLineDetail(lineCode) {
+  const summaryView = document.getElementById('takt-summary-view');
+  const container = document.getElementById('takt-detail-container');
+
+  if (container.querySelector(`#detail-${lineCode}`)) {
+    // 已存在，切换显示
+    const existing = container.querySelector(`#detail-${lineCode}`);
+    if (existing.style.display === 'none') {
+      summaryView.style.display = 'none';
+      existing.style.display = 'block';
+    } else {
+      existing.style.display = 'none';
+      summaryView.style.display = 'block';
+    }
+  } else {
+    // 动态生成详情表格
+    const stations = taktActualData.lineDetails[lineCode] || [];
+    const lineName = taktActualData.lineNames[lineCode] || lineCode;
+
+    let tableRows = '';
+    stations.forEach((s, i) => {
+      const isPass = s.is_pass !== undefined ? s.is_pass : (s.avg_takt <= 300);
+      const standard = s.takt_standard || 0;
+      const stdText = standard > 0 ? `${standard}s` : '-';
+      tableRows += `<tr><td>${i+1}</td><td style="text-align:left;font-weight:500">${s.code}</td><td style="text-align:left">${s.name || s.code}</td><td>${s.avg_takt.toFixed(1)}s</td><td>${stdText}</td><td>${s.sample_count}</td><td><span class="st ${isPass?'sl':'sh'}">${isPass?'达标':'未达标'}</span></td></tr>`;
+    });
+
+    const detailHtml = `<div id="detail-${lineCode}" style="margin-top:12px"><div class="cc"><div class="ct" style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px"><span>📋 ${lineName} - 各工位节拍详情</span><button onclick="toggleLineDetail('${lineCode}')" style="padding:4px 12px;background:var(--bdr);border:none;border-radius:4px;color:var(--txt);cursor:pointer;font-size:11px;white-space:nowrap">← 返回线体汇总</button></div><div class="cs">节拍标准: 45s/工位 × 活动工位数，备机工位已排除</div><div class="table-wrap"><table style="margin-top:10px"><thead><tr><th>序号</th><th style="text-align:left">工位编码</th><th style="text-align:left">工位名称</th><th>节拍</th><th>标准</th><th>样本数</th><th>状态</th></tr></thead><tbody>${tableRows}</tbody></table></div></div></div>`;
+
+    container.innerHTML = detailHtml;
+    summaryView.style.display = 'none';
+  }
+}
+
+/* ===== Charts ===== */
+
+// 1. 各线流经量
+new Chart(document.getElementById('chOut'),{type:'bar',data:{labels:outData.labels,datasets:[{label:'流经量(台)',data:outData.values,backgroundColor:[C.bA,'rgba(139,92,246,.3)',C.gA,C.oA,C.cA,C.pkA,'rgba(239,68,68,.3)','rgba(148,163,184,.2)'],borderColor:[C.blue,C.purple,C.green,C.orange,C.cyan,C.pink,C.red,'#94a3b8'],borderWidth:1.5,borderRadius:6,maxBarThickness:60}]},options:{responsive:true,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:'#e4e4e7',font:{size:isSmallScreen()?9:11,weight:'bold'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false},ticks:{font:{size:isSmallScreen()?8:10},maxRotation:isSmallScreen()?60:45,minRotation:0}}}},plugins:[ChartDataLabels]});
+
+// 2. 安灯按线体
+new Chart(document.getElementById('chAndonLine'),{type:'bar',data:{labels:andonLine.labels,datasets:[
+  {label:'安灯次数',data:andonLine.counts,backgroundColor:C.rA,borderColor:C.red,borderWidth:1.5,borderRadius:5,yAxisID:'y'},
+  {label:'累计分钟',data:andonLine.mins,type:'line',borderColor:C.orange,backgroundColor:'transparent',pointRadius:5,pointBackgroundColor:C.orange,borderWidth:2.5,tension:.3,yAxisID:'y1'}
+]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:10,font:{size:10}}},datalabels:{display:false}},scales:{y:{beginAtZero:true,title:{display:true,text:'次数',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y1:{beginAtZero:true,position:'right',title:{display:true,text:'分钟',font:{size:9}},grid:{drawOnChartArea:false}},x:{grid:{display:false},ticks:{font:{size:9}}}}}});
+
+// 3. 安灯工位Top10
+new Chart(document.getElementById('chAndonSt'),{type:'bar',data:{labels:andonStations.labels,datasets:[
+  {label:'安灯次数',data:andonStations.counts,backgroundColor:C.rA,borderColor:C.red,borderWidth:1.5,borderRadius:5},
+  {label:'累计分钟',data:andonStations.mins,backgroundColor:'rgba(245,158,11,.3)',borderColor:C.orange,borderWidth:1.5,borderRadius:5}
+]},options:{indexAxis:'y',responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:10,font:{size:10}}},datalabels:{display:false}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},y:{grid:{display:false},ticks:{font:{size:isSmallScreen()?7:9}}}}}});
+
+// 4. 停机时间线
+const tl=document.getElementById('timeline');
+topEvents.forEach(e=>{
+  const color=e.sec>100?'var(--red)':e.sec>50?'var(--orange)':'var(--blue)';
+  const mins=(e.sec/60).toFixed(1);
+  tl.innerHTML+=`<div class="ti"><div class="td" style="background:${color}"></div><div class="tt">${e.time}</div><div class="tr2">${e.line} · ${e.station}</div><div class="tdr" style="color:${color}">${mins}m</div></div>`;
+});
+
+// 5. FAIL分布
+new Chart(document.getElementById('chFail'),{type:'bar',data:{labels:failData.map(d=>d.name),datasets:[{label:'FAIL数',data:failData.map(d=>d.count),backgroundColor:failData.map(d=>d.line==='总成线'?C.rA:d.line==='电机线'?C.pA:C.oA),borderColor:failData.map(d=>d.line==='总成线'?C.red:d.line==='电机线'?C.purple:C.orange),borderWidth:1.5,borderRadius:5}]},options:{indexAxis:'y',responsive:true,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'end',color:'#e4e4e7',font:{size:isSmallScreen()?8:10,weight:'bold'}}},scales:{x:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'},ticks:{stepSize:1}},y:{grid:{display:false},ticks:{font:{size:isSmallScreen()?7:9}}}}},plugins:[ChartDataLabels]});
+
+// 6. NG帕累托
+const ngTotal=ngData.counts.reduce((a,b)=>a+b,0);let ngCum=0;const ngPct=ngData.counts.map(v=>{ngCum+=v;return+(ngCum/ngTotal*100).toFixed(1)});
+new Chart(document.getElementById('chNG'),{type:'bar',data:{labels:ngData.stations,datasets:[
+  {label:'NG数',data:ngData.counts,backgroundColor:ngData.counts.map((_,i)=>i<3?'rgba(239,68,68,.35)':i<6?'rgba(245,158,11,.3)':'rgba(59,130,246,.25)'),borderColor:ngData.counts.map((_,i)=>i<3?C.red:i<6?C.orange:C.blue),borderWidth:1.5,borderRadius:5,yAxisID:'y'},
+  {label:'累计%',data:ngPct,type:'line',borderColor:C.pink,backgroundColor:'transparent',pointRadius:3,borderWidth:2,tension:.3,yAxisID:'y1'}
+]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:10,font:{size:10}}},datalabels:{display:ctx=>ctx.datasetIndex===1,anchor:'end',align:'top',color:C.pink,font:{size:isSmallScreen()?7:9,weight:'bold'},formatter:v=>v+'%'}},scales:{y:{beginAtZero:true,title:{display:!isSmallScreen(),text:'数量',font:{size:9}},grid:{color:'rgba(255,255,255,.04)'}},y1:{min:0,max:100,position:'right',ticks:{callback:v=>v+'%'},grid:{drawOnChartArea:false}},x:{grid:{display:false},ticks:{font:{size:isSmallScreen()?6:8},maxRotation:isSmallScreen()?60:0}}}},plugins:[ChartDataLabels]});
+
+// 7. FAIL明细表
+const ft=document.getElementById('failTable');
+failData.forEach(d=>{
+  const cls=d.count>=3?'sh':d.count>=2?'sm':'sl';
+  ft.innerHTML+=`<tr><td class="ln">${d.line}</td><td>${d.code}</td><td>${d.name}</td><td style="font-weight:700;color:${d.count>=3?'var(--red)':d.count>=2?'var(--orange)':'var(--txt)'}">${d.count}</td><td>OUT</td><td><span class="st ${cls}">${d.count>=3?'严重':d.count>=2?'中等':'一般'}</span></td></tr>`;
+});
+
+// 8. 产品型号
+new Chart(document.getElementById('chProd'),{type:'doughnut',data:{labels:prodData.labels,datasets:[{data:prodData.values,backgroundColor:[C.blue,C.purple,C.green,C.orange,C.cyan],borderColor:'#1a1d27',borderWidth:3}]},options:{responsive:true,cutout:'55%',plugins:{legend:{position:'right',labels:{usePointStyle:true,padding:8,font:{size:10}}},datalabels:{color:'#fff',font:{weight:'bold',size:10},formatter:(v,ctx)=>{const s=ctx.chart.data.datasets[0].data.reduce((a,b)=>a+b,0);return(Math.round(v/s*100))+'%'}}}},plugins:[ChartDataLabels]});
+
+// 9. IN/OUT
+new Chart(document.getElementById('chInOut'),{type:'bar',data:{labels:lineCodes.labels,datasets:[
+  {label:'IN',data:lineCodes.ins,backgroundColor:C.bA,borderColor:C.blue,borderWidth:1.5,borderRadius:5,maxBarThickness:40},
+  {label:'OUT',data:lineCodes.outs,backgroundColor:C.gA,borderColor:C.green,borderWidth:1.5,borderRadius:5,maxBarThickness:40}
+]},options:{responsive:true,plugins:{legend:{position:'top',labels:{usePointStyle:true,padding:10,font:{size:10}}},datalabels:{display:false}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false},ticks:{font:{size:isSmallScreen()?7:8},maxRotation:isSmallScreen()?60:0}}}}});
+
+// 10. 时段分布
+new Chart(document.getElementById('chHourly'),{type:'bar',data:{labels:hourlyAndon.hours.map(h=>h+':00'),datasets:[{label:'安灯次数',data:hourlyAndon.counts,backgroundColor:hourlyAndon.counts.map(v=>v>=12?'rgba(239,68,68,.4)':v>=8?'rgba(245,158,11,.35)':v>=5?'rgba(59,130,246,.3)':'rgba(100,116,139,.25)'),borderColor:hourlyAndon.counts.map(v=>v>=12?C.red:v>=8?C.orange:v>=5?C.blue:C.slate),borderWidth:1.5,borderRadius:6,maxBarThickness:40}]},options:{responsive:true,plugins:{legend:{display:false},datalabels:{anchor:'end',align:'top',color:'#e4e4e7',font:{size:isSmallScreen()?8:10,weight:'bold'}}},scales:{y:{beginAtZero:true,grid:{color:'rgba(255,255,255,.04)'}},x:{grid:{display:false},ticks:{font:{size:isSmallScreen()?8:10}}}}},plugins:[ChartDataLabels]});
+</script>
+</body>
+</html>
